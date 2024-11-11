@@ -117,6 +117,7 @@ The backend provides the API endpoints necessary for roster and player managemen
 │   ├── styles           # CSS modules for component-level styling
 │   └── types            # Type definitions for TypeScript
 ├── README.md            # Project documentation
+```
 
 ---
 
