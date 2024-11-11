@@ -1,0 +1,33 @@
+.controlsContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .label {
+    color: #b3b3b3;
+    margin-right: 8px;
+  }
+  
+  .dropdown {
+    padding: 5px;
+    border-radius: 4px;
+    background-color: #333;
+    color: #ffffff;
+    border: 1px solid #444;
+    margin-right: 16px;
+  }
+  
+  .itemCount {
+    color: #b3b3b3;
+    margin-right: 16px;
+  }
+  
+  .searchInput {
+    padding: 6px 10px;
+    border-radius: 4px;
+    background-color: #333;
+    color: #ffffff;
+    border: 1px solid #444;
+    width: 200px;
+  }
+  

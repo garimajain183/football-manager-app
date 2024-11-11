@@ -1,0 +1,28 @@
+.playerTableWrapper {
+
+  background-color: #1a1a1a !important;
+  .mantine-Table-root {
+    background-color: #1a1a1a !important;
+    tbody {
+      background-color: #1a1a1a !important;
+      tr:nth-of-type(even) {
+        background-color: #1a1a1a !important;
+      }
+
+      /* tr:nth-of-type(odd) {
+        background-color: #000000 !important;
+      } */
+
+      td {
+        color: #ffffff;
+      }
+    }
+
+    thead {
+      th {
+        background-color: #1a1a1a !important;
+        color: #ffffff;
+      }
+    }
+  }
+}

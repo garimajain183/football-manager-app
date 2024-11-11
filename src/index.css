@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.mantine-Paper-root {
+  background-color: #1c1e21 !important;
+}
+.mantine-my7tip>thead>tr>th, .mantine-my7tip>tbody>tr>td {
+  background-color: #1c1e21 !important;
+}

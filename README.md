@@ -1,46 +1,152 @@
-# Getting Started with Create React App
+# Roster Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a **Roster Management System** that allows users to manage roster files and player information efficiently. Users can upload roster files, view and edit player details, switch between table and formation views, and perform CRUD operations on both files and individual players.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Upload and manage roster files
+- View roster files and players in a searchable table format
+- Toggle between table view and a soccer field formation view for players
+- Edit and delete players within a roster file
+- Edit roster file names
+- Lightweight and efficient state management with Zustand
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Frontend**: React, Mantine UI, Zustand, Tabler Icons
+- **Backend API**: REST API built with Node.js (provided as a separate service)
+- **State Management**: Zustand for managing the application state
+- **CSS Modules**: Modular CSS for styling
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Installation and Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- **Docker** (v20.10 or higher)
+- **Docker Compose** (v1.29 or higher)
+- **Node.js** and **npm** (for development without Docker)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Beam-Dynamics/frontend_challenge_v2_be.git
+    cd frontend_challenge_v2_be/
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Start the backend API using Docker:
+    ```bash
+    npm run start:docker
+    ```
+   OR
+    ```bash
+    docker-compose up -d
+    ```
 
-### `npm run eject`
+3. Access the REST API at `http://localhost:5001`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Frontend Setup
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Navigate to the frontend repository and install dependencies:
+    ```bash
+    npm install
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+2. Start the development server:
+    ```bash
+    npm start
+    ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. Access the application at `http://localhost:3000`.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## API Endpoints
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Method | Endpoint              | Description                        |
+|--------|------------------------|------------------------------------|
+| GET    | `/api/file`           | List of imported roster files      |
+| GET    | `/api/roster/:fileId` | List of players in a roster file   |
+| POST   | `/api/roster`         | Upload a new roster file           |
+| PATCH  | `/api/file`           | Update a roster file's name        |
+| DELETE | `/api/file/:fileId`   | Delete a roster file by ID         |
+| PATCH  | `/api/roster`         | Update a player's details          |
+| DELETE | `/api/roster/:playerId` | Delete a player by ID            |
+
+---
+
+## Architecture
+
+### 1. Frontend (React with Zustand)
+
+The frontend is built with **React** and utilizes **Zustand** for state management. It is organized as follows:
+
+- **Components**: All UI components are modular, such as `PlayerTable`, `SoccerField`, `PlayerCard`, and `NotEnoughStartersPopup`. Each component is styled using CSS modules for scoped and modular styling.
+- **State Management**: Zustand is used to manage the state of roster files and players in `useRosterStore`.
+  - **Roster Files**: Handled with CRUD actions, allowing file upload, name update, and deletion without re-fetching data unnecessarily.
+  - **Players**: CRUD operations for players, allowing direct in-place updates and deletions within `rosterFiles`.
+- **UI**: Built with Mantine for consistent styling and UI components like buttons, modals, and input fields.
+
+### 2. Backend (REST API)
+
+The backend provides the API endpoints necessary for roster and player management. It's deployed as a standalone Docker service and interacts with the frontend over HTTP.
+
+- **Endpoints**: The backend exposes various REST endpoints for managing roster files and player data.
+- **File Management**: The backend allows file uploads via `POST /api/roster`, and file management (such as updating names and deleting files) is handled with PATCH and DELETE requests.
+
+### Application Flow
+
+1. **Roster Files**: Users can upload, view, and manage roster files.
+2. **Players**: Within each roster file, users can view player information, update player details, and delete players.
+3. **View Toggle**: Users can switch between a table view (showing player details in a grid) and a formation view (showing player positions on a soccer field).
+4. **Search and Filter**: Search functionality allows users to filter players based on the input.
+
+---
+
+## Folder Structure
+
+```plaintext
+.
+├── src
+│   ├── components       # All UI components (e.g., PlayerTable, SoccerField)
+│   ├── pages            # All pages (e.g., Home, TeamOverviewPage)
+│   ├── store            # Zustand store for managing state (useRosterStore)
+│   ├── api              # API functions to interact with backend (rosterApi.js)
+│   ├── styles           # CSS modules for component-level styling
+│   └── types            # Type definitions for TypeScript
+├── README.md            # Project documentation
+
+---
+
+## State Management with Zustand
+
+### Zustand Store (`useRosterStore`)
+
+The `useRosterStore` Zustand store contains the following state variables and functions:
+
+#### State Variables:
+
+- **rosterFiles**: List of all imported roster files.
+- **players**: List of players within a selected roster file.
+- **isLoading**: Boolean flag for loading states.
+
+#### Functions:
+
+- **loadRosterFiles**: Loads all roster files from the backend.
+- **loadPlayersByRoster**: Loads players for a specific roster file by `fileId`.
+- **addRosterFile**: Uploads a new roster file.
+- **updateRosterFileName**: Updates a roster file's name without re-fetching all files.
+- **deleteRosterFileById**: Deletes a file by `fileId` without re-fetching all files.
+- **updateRoasterPlayerDetail**: Updates player details in-place.
+- **deletePlayerById**: Deletes a player by `playerId` without re-fetching all players.
+
+---
+
+## Usage
+
+- **Upload a Roster File**: Click the "Import Team" button to upload a roster file (CSV format).
+- **Manage Players**: Select a roster file to view and manage its players. You can search, edit, or delete players.
+- **View Modes**: Toggle between "Roster Details" and "Formation Overview" to see players in a table or on a soccer field.
+- **Edit Roster Names**: Click on the roster name to edit and update the name.

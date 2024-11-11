@@ -1,0 +1,71 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  padding: 20px;
+  background-color: #1a1a1a; /* Dark background color */
+  color: #ffffff;
+}
+
+.title {
+  font-size: 2rem;
+  color: #ffcc00; /* Optional: set a distinct color for the title */
+  margin-bottom: 20px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: #ffcc00; /* Bright color for "Import List" title */
+}
+
+.searchAndButton {
+  display: flex;
+  gap: 10px; /* Space between search box and button */
+}
+
+.searchBox {
+  width: 200px;
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.importButton {
+  background-color: #ff9800;
+  color: #ffffff;
+  border: none;
+}
+
+.tableContainer {
+  flex-grow: 1; /* Make the table container grow to fill the available space */
+  overflow: hidden; /* Prevent overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}

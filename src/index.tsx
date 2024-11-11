@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { setupMocks } from './api/mock';
+import { MantineProvider } from '@mantine/core';
+
+if (process.env.NODE_ENV === 'development') {
+  setupMocks();
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    <MantineProvider>
     <App />
+    </MantineProvider>
   </React.StrictMode>
 );
 

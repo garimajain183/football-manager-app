@@ -1,0 +1,65 @@
+/* Table styling */
+.tableContainer {
+  background-color: #1a1a1a !important;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+}
+
+.tableContainer>tbody>tr>td {
+  background-color: #1c1e21 !important;
+}
+
+th {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #1a1a1a !important;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #333333;
+}
+
+td {
+  background-color: #1a1a1a !important;
+  font-size: 14px;
+  color: #ffffff;
+  padding: 10px;
+  border-bottom: 1px solid #333333;
+}
+
+tr:hover {
+  background-color: #333333;
+}
+
+td:last-child {
+  text-align: center;
+  width: 50px;
+}
+
+/* Actions Button */
+.buttonSubtle {
+  background-color: #333333;
+  color: #ffffff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.buttonSubtle:hover {
+  background-color: #444444;
+}
+
+.buttonSubtleIcon {
+  font-size: 18px;
+}
+
+.mantine-my7tip>thead>tr>th, .mantine-my7tip>tbody>tr>td {
+  background-color: #1c1e21 !important;
+}
