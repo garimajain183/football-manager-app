@@ -151,3 +151,25 @@ The `useRosterStore` Zustand store contains the following state variables and fu
 - **Manage Players**: Select a roster file to view and manage its players. You can search, edit, or delete players.
 - **View Modes**: Toggle between "Roster Details" and "Formation Overview" to see players in a table or on a soccer field.
 - **Edit Roster Names**: Click on the roster name to edit and update the name.
+
+---
+
+## API Path Configuration
+
+This application allows you to configure a custom API path or use mock APIs.
+
+### Setting the API Path
+Upon loading the app, you will be prompted to enter the base API URL:
+- **Enter API Path**: Type in the API URL and click **Save** to store it in `localStorage`.
+- **Use Mock API**: Click **Use Mock API** to set up and use mock responses instead.
+
+The API path will be saved in `localStorage` and automatically used for all API calls.
+
+### Resetting the API Path
+To reset the API path:
+1. Open your browser's **Developer Console**.
+2. Go to the **Application** tab.
+3. Under **Storage**, find **Local Storage** and select the current domain.
+4. Locate and delete the `apiPath` key to reset the API configuration.
+
+The next time you load the app, you will be prompted to enter the API path again.
