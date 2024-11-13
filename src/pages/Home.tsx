@@ -44,8 +44,6 @@ const Home: React.FC = () => {
   }, [apiPath]);
 
   const handleApiPathSave = (path: string) => {
-    localStorage.setItem('apiPath', path); // Save to localStorage
-    updateApiBaseUrl(); // Update Axios baseURL
     setApiPath(path); // Optionally, update component state if needed
   };
 
