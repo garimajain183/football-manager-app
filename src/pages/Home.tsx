@@ -1,5 +1,6 @@
+// src/pages/Home.tsx
 import React, { useEffect, useState, useMemo } from 'react';
-import { Button, Modal, ActionIcon, Stack, TextInput } from '@mantine/core';
+import { Button, TextInput, ActionIcon } from '@mantine/core';
 import { IconSearch, IconTrash } from '@tabler/icons-react';
 import { MantineReactTable, useMantineReactTable, MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { useRosterStore } from '../store/useRosterStore';
@@ -8,11 +9,13 @@ import styles from '../styles/ImportListPage.module.css';
 import FileImporter from '../components/FileImporter';
 import ColumnSelectorModal from '../components/ColumnSelectorModal';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+import ApiPathPopup from '../components/ApiPathPopup';
+import { updateApiBaseUrl } from '../api/axios';
 
 export interface RosterFile {
-  id: string; // Unique identifier for the roster file
-  fileName: string; // Name of the roster file
-  createdAt: string; // Timestamp when the file was created
+  id: string;
+  fileName: string;
+  createdAt: string;
 }
 
 const Home: React.FC = () => {
@@ -22,6 +25,8 @@ const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isApiPathPopupOpen, setIsApiPathPopupOpen] = useState(false);
+  const [apiPath, setApiPath] = useState<string | null>(localStorage.getItem('apiPath'));
   const [rosterFileToDelete, setRosterFileToDelete] = useState<RosterFile | null>(null);
 
   const loadRosterFiles = useRosterStore((state) => state.loadRosterFiles);
@@ -30,10 +35,19 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (rosterFiles.length == 0) {
+    // Open the API path popup if API path is not set in localStorage
+    if (!apiPath) {
+      setIsApiPathPopupOpen(true);
+    } else if (rosterFiles.length === 0) {
       loadRosterFiles();
     }
-  }, []);
+  }, [apiPath]);
+
+  const handleApiPathSave = (path: string) => {
+    localStorage.setItem('apiPath', path); // Save to localStorage
+    updateApiBaseUrl(); // Update Axios baseURL
+    setApiPath(path); // Optionally, update component state if needed
+  };
 
   const handleDeleteRosterFile = (roasterFile: RosterFile) => {
     console.log(`Deleting roster file with id: ${roasterFile.id}`);
@@ -58,7 +72,7 @@ const Home: React.FC = () => {
         header: 'Roster Name',
         Cell: ({ cell, row }) => (
           <div onClick={() => handleRowClick(row.original.id)} style={{ cursor: 'pointer' }}>
-            {cell.getValue() as string} {/* Assert that the value is a string */}
+            {cell.getValue() as string}
           </div>
         ),
       },
@@ -66,7 +80,7 @@ const Home: React.FC = () => {
         accessorKey: 'createdAt',
         header: 'Import Date',
         Cell: ({ cell }) => {
-          const dateValue = cell.getValue() as string; // Assert that this is a string
+          const dateValue = cell.getValue() as string;
           return new Date(dateValue).toLocaleDateString();
         },
       },
@@ -95,7 +109,7 @@ const Home: React.FC = () => {
     columns,
     data: filteredData,
     enableSorting: true,
-    renderTopToolbar: null, // This removes the top toolbar
+    renderTopToolbar: null,
     enableColumnFilters: false,
     enableGlobalFilter: false,
     enableDensityToggle: false,
@@ -109,13 +123,11 @@ const Home: React.FC = () => {
   });
 
   const handleImportTeam = () => {
-    console.log("Import Team button clicked");
     setIsImportModalOpen(true);
   };
 
   const confirmDelete = () => {
     if (rosterFileToDelete) {
-      console.log('Deleting roasterFile:', rosterFileToDelete);
       deleteRosterFileById(rosterFileToDelete.id);
       setIsDeleteModalOpen(false);
       setRosterFileToDelete(null);
@@ -131,12 +143,9 @@ const Home: React.FC = () => {
             placeholder="Find Roster"
             className={styles.searchBox}
             onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-            icon={<IconSearch size={16} />} // Add search icon inside the input
+            icon={<IconSearch size={16} />}
           />
-          <Button
-            className={styles.importButton}
-            onClick={handleImportTeam}
-          >
+          <Button className={styles.importButton} onClick={handleImportTeam}>
             Import Team
           </Button>
         </div>
@@ -164,9 +173,16 @@ const Home: React.FC = () => {
           columns={columns.map((col) => col.header as string)}
           selectedColumns={columns.map((col) => col.accessorKey as string)}
           onClose={() => setIsModalOpen(false)}
-          onConfirm={() => setIsModalOpen(false)} // Adjust this as needed
+          onConfirm={() => setIsModalOpen(false)}
         />
       )}
+
+      {/* API Path Popup */}
+      <ApiPathPopup
+        isOpen={isApiPathPopupOpen}
+        onClose={() => setIsApiPathPopupOpen(false)}
+        onSave={handleApiPathSave}
+      />
     </div>
   );
 };
